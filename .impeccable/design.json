@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-25T00:00:00Z",
+  "title": "Design System: ZAG Motors",
+  "extensions": {
+    "colorMeta": {
+      "gold": { "role": "primary", "displayName": "Showroom Gold", "canonical": "#c9a24b", "tonalRamp": ["#2b2210", "#4a3b1b", "#6b5627", "#8d7133", "#b08e40", "#c9a24b", "#dcc088", "#efe1c2"] },
+      "gold-deep": { "role": "primary", "displayName": "Burnished Gold", "canonical": "#a6843a", "tonalRamp": ["#241c0c", "#3d3016", "#584522", "#745b2c", "#a6843a", "#bd9f62", "#d4bf93", "#ebdfc6"] },
+      "ink": { "role": "neutral", "displayName": "Stand Ink", "canonical": "#0b0b0c", "tonalRamp": ["#0b0b0c", "#121213", "#1a191b", "#2a292c", "#48464a", "#6e6c70", "#a09ea2", "#d6d5d7"] },
+      "ink-2": { "role": "neutral", "displayName": "Placard Ink", "canonical": "#121213", "tonalRamp": ["#0b0b0c", "#121213", "#1a191b", "#2a292c", "#48464a", "#6e6c70", "#a09ea2", "#d6d5d7"] },
+      "ink-3": { "role": "neutral", "displayName": "Deep Panel", "canonical": "#1a191b", "tonalRamp": ["#0b0b0c", "#121213", "#1a191b", "#2a292c", "#48464a", "#6e6c70", "#a09ea2", "#d6d5d7"] },
+      "bone": { "role": "neutral", "displayName": "Bone", "canonical": "#ede8dc", "tonalRamp": ["#2a2822", "#47443b", "#666255", "#878272", "#a9a393", "#c8c2b3", "#ede8dc", "#f8f6f0"] },
+      "muted": { "role": "neutral", "displayName": "Field Grey", "canonical": "#8a8577", "tonalRamp": ["#1f1e1a", "#35332d", "#4d4a42", "#6a665b", "#8a8577", "#a6a296", "#c4c1b8", "#e3e1db"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Section titles; Unbounded 600, tight tracking. Arabic uses display-ar." },
+      "headline": { "displayName": "Headline", "purpose": "Placard titles." },
+      "title": { "displayName": "Title", "purpose": "Branch names, counts, mobile nav rows." },
+      "body": { "displayName": "Body", "purpose": "Intros and placard descriptions, 46-52ch, bone at 70%." },
+      "label": { "displayName": "Field Label", "purpose": "Tiny tracked uppercase placard labels in muted; Arabic 0.8125rem, no tracking, no case." },
+      "button": { "displayName": "Button", "purpose": "Uppercase tracked Latin button text; Arabic 0.9375rem plain." },
+      "display-ar": { "displayName": "Display (Arabic)", "purpose": "Cairo display, one weight step heavier, taller leading, no tracking." },
+      "body-ar": { "displayName": "Body (Arabic)", "purpose": "Cairo body at line-height 1.75." }
+    },
+    "shadows": [
+      { "name": "stamp-double-rule", "value": "inset 0 0 0 1.5px var(--color-gold), inset 0 0 0 3.5px color-mix(in oklab, var(--color-ink) 75%, transparent), inset 0 0 0 4.5px var(--color-gold)", "purpose": "SOLD stamp border only; the system has no elevation shadows." }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Nav underline, arrow nudges." },
+      { "name": "ease-out-quart", "value": "cubic-bezier(0.25, 1, 0.5, 1)", "purpose": "Button color transitions (220ms), media fade-in (700ms image, 1000ms hero video), isolate-and-dim (300ms)." },
+      { "name": "marquee", "value": "72s linear infinite", "purpose": "Brand band; reversed in RTL, paused on hover/focus-within, static wrapped list under reduced motion." },
+      { "name": "draw-rule", "value": "scaleX 0->1, view() entry 10% cover 30%", "purpose": "Section and placard hairlines draw from the start edge." },
+      { "name": "field-in", "value": "opacity + translateY(0.5rem), view() entry 4%+3%*i", "purpose": "Staggered placard field rows." },
+      { "name": "zig-line", "value": "clip-path inset top-down, view() entry 30% cover 55%", "purpose": "The ZAG diagonal draws between catalog rows." },
+      { "name": "zig-node", "value": "opacity + scale 0.2->1, view() entry 20% cover 40%", "purpose": "Diamond nodes at each end of the diagonal." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Solid Button",
+      "kind": "button",
+      "refersTo": "button-solid",
+      "description": "Primary action: gold fill, ink text, square corners.",
+      "html": "<a class=\"ds-btn ds-btn-solid\" href=\"#\">Browse catalog <svg width=\"16\" height=\"16\" viewBox=\"0 0 256 256\" fill=\"currentColor\"><path d=\"M205.66 149.66l-72 72a8 8 0 0 1-11.32 0l-72-72a8 8 0 0 1 11.32-11.32L120 196.69V40a8 8 0 0 1 16 0v156.69l58.34-58.35a8 8 0 0 1 11.32 11.32Z\"/></svg></a>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.625rem; min-height: 3rem; padding-inline: 1.375rem; font-family: var(--font-sans, Archivo, sans-serif); font-weight: 600; font-size: 0.8125rem; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; text-decoration: none; border-radius: 0; transition: background-color 220ms cubic-bezier(0.25,1,0.5,1), color 220ms cubic-bezier(0.25,1,0.5,1), border-color 220ms cubic-bezier(0.25,1,0.5,1), transform 120ms cubic-bezier(0.25,1,0.5,1); } .ds-btn:active { transform: translateY(1px); } .ds-btn:focus-visible { outline: 2px solid #c9a24b; outline-offset: 3px; } .ds-btn-solid { background: #c9a24b; color: #0b0b0c; border: 1px solid #c9a24b; } .ds-btn-solid:hover { background: #ede8dc; border-color: #ede8dc; }"
+    },
+    {
+      "name": "Line Button",
+      "kind": "button",
+      "refersTo": "button-line",
+      "description": "Secondary action: gold hairline, bone text, fills gold on hover.",
+      "html": "<a class=\"ds-btn-l\" href=\"#\">Ask about this</a>",
+      "css": ".ds-btn-l { display: inline-flex; align-items: center; justify-content: center; gap: 0.625rem; min-height: 3rem; padding-inline: 1.375rem; font-family: var(--font-sans, Archivo, sans-serif); font-weight: 600; font-size: 0.8125rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border-radius: 0; border: 1px solid color-mix(in oklab, #c9a24b 70%, transparent); color: #ede8dc; background: color-mix(in oklab, #0b0b0c 55%, transparent); transition: background-color 220ms cubic-bezier(0.25,1,0.5,1), color 220ms cubic-bezier(0.25,1,0.5,1), border-color 220ms cubic-bezier(0.25,1,0.5,1); } .ds-btn-l:hover { background: #c9a24b; border-color: #c9a24b; color: #0b0b0c; } .ds-btn-l:focus-visible { outline: 2px solid #c9a24b; outline-offset: 3px; }"
+    },
+    {
+      "name": "Placard",
+      "kind": "card",
+      "refersTo": "placard",
+      "description": "Signature container: ink-2 panel, gold hairline, registration corners, ruled field rows with dotted leaders and a pending field.",
+      "html": "<div class=\"ds-placard\"><h3 class=\"ds-placard-title\">Golf Cars</h3><span class=\"ds-rule\"></span><p class=\"ds-placard-body\">Electric carts for compounds, resorts and summer homes.</p><dl class=\"ds-fields\"><div class=\"ds-field\"><dt class=\"ds-label\">Lot</dt><dd class=\"ds-lot\">01</dd></div><div class=\"ds-field\"><dt class=\"ds-label\">Seating</dt><dd><span class=\"ds-pending\">to confirm</span></dd></div></dl></div>",
+      "css": ".ds-placard { position: relative; background: #121213; border: 1px solid color-mix(in oklab, #c9a24b 24%, transparent); padding: 2rem; color: #ede8dc; max-width: 24rem; border-radius: 0; } .ds-placard::before { content: ''; position: absolute; inset: -1px; pointer-events: none; background: linear-gradient(#c9a24b,#c9a24b) top left / 14px 1px, linear-gradient(#c9a24b,#c9a24b) top left / 1px 14px, linear-gradient(#c9a24b,#c9a24b) top right / 14px 1px, linear-gradient(#c9a24b,#c9a24b) top right / 1px 14px, linear-gradient(#c9a24b,#c9a24b) bottom left / 14px 1px, linear-gradient(#c9a24b,#c9a24b) bottom left / 1px 14px, linear-gradient(#c9a24b,#c9a24b) bottom right / 14px 1px, linear-gradient(#c9a24b,#c9a24b) bottom right / 1px 14px; background-repeat: no-repeat; } .ds-placard-title { margin: 0; font-family: Unbounded, sans-serif; font-weight: 600; font-size: 1.75rem; line-height: 1.06; letter-spacing: -0.03em; } .ds-rule { display: block; height: 1px; margin-top: 1.5rem; background: color-mix(in oklab, #c9a24b 25%, transparent); } .ds-placard-body { margin-top: 1.25rem; font-size: 0.96875rem; line-height: 1.625; color: color-mix(in oklab, #ede8dc 70%, transparent); } .ds-fields { margin: 2rem 0 0; display: flex; flex-direction: column; gap: 0.875rem; } .ds-field { display: flex; align-items: baseline; gap: 0.75rem; } .ds-field > dt { display: flex; flex: 1 1 auto; align-items: baseline; gap: 0.75rem; min-width: 0; } .ds-field > dt::after { content: ''; flex: 1 1 1.25rem; min-width: 1.25rem; border-bottom: 1px dotted color-mix(in oklab, #8a8577 55%, transparent); transform: translateY(-0.25em); } .ds-field > dd { margin: 0; text-align: end; } .ds-label { font-size: 0.6875rem; line-height: 1.2; letter-spacing: 0.16em; text-transform: uppercase; color: #8a8577; } .ds-lot { font-family: Unbounded, sans-serif; font-size: 0.875rem; font-weight: 500; font-variant-numeric: tabular-nums; color: #c9a24b; } .ds-pending { display: inline-block; padding: 0.125rem 0.5rem; font-size: 0.75rem; border: 1px dashed color-mix(in oklab, #8a8577 70%, transparent); color: #8a8577; }"
+    },
+    {
+      "name": "Pending Field",
+      "kind": "chip",
+      "refersTo": "pending-field",
+      "description": "An unfilled datum shown as a dashed blank; confirmed brand chip alongside for contrast.",
+      "html": "<span class=\"ds-chip\">HDK</span> <span class=\"ds-pend\">to confirm</span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; padding: 0.125rem 0.5rem; font-family: Unbounded, sans-serif; font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid color-mix(in oklab, #c9a24b 55%, transparent); color: #ede8dc; } .ds-pend { display: inline-block; padding: 0.125rem 0.5rem; font-size: 0.75rem; border: 1px dashed color-mix(in oklab, #8a8577 70%, transparent); color: #8a8577; }"
+    },
+    {
+      "name": "Media Slot Placeholder",
+      "kind": "custom",
+      "refersTo": "slot-surface",
+      "description": "Finished stand-in for any missing image or video: hatched ink plate, registration corners, ghost Z, slot label and file path.",
+      "html": "<div class=\"ds-slot\"><svg class=\"ds-slot-z\" viewBox=\"0 0 12 12\" fill=\"none\"><path d=\"M1.5 2h9L1.5 10h9\" stroke=\"currentColor\" stroke-width=\"1.25\" stroke-linecap=\"square\"/></svg><div class=\"ds-slot-meta\"><span class=\"ds-slot-label\">Image slot: golf-cars</span><span class=\"ds-slot-path\">public/vehicles/golf-cars.png</span></div></div>",
+      "css": ".ds-slot { position: relative; width: 20rem; aspect-ratio: 4/3; display: flex; flex-direction: column; justify-content: flex-end; background-color: #121213; background-image: repeating-linear-gradient(135deg, color-mix(in oklab, #c9a24b 7%, transparent) 0 1px, transparent 1px 13px), radial-gradient(120% 90% at 85% 10%, #1f1c16 0%, transparent 60%), linear-gradient(160deg, #19171300 0%, #0c0c0d 100%); outline: 1px solid color-mix(in oklab, #c9a24b 18%, transparent); } .ds-slot-z { position: absolute; top: 1.5rem; right: 1.5rem; width: 3.5rem; height: 3.5rem; color: color-mix(in oklab, #c9a24b 20%, transparent); } .ds-slot-meta { display: flex; flex-direction: column; gap: 0.375rem; padding: 1.25rem; } .ds-slot-label { font-size: 0.875rem; font-weight: 500; color: color-mix(in oklab, #ede8dc 85%, transparent); } .ds-slot-path { font-family: ui-monospace, monospace; font-size: 0.6875rem; color: #8a8577; }"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "refersTo": "language-toggle-active",
+      "description": "Sticky ink header: nav links with a gold underline that scales in from the start edge, and a square segmented language toggle.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\">Catalog</a><a href=\"#\">Sold in Sahel</a><a href=\"#\">Branches</a><div class=\"ds-lang\"><button aria-pressed=\"true\">EN</button><button aria-pressed=\"false\" lang=\"ar\">ع</button></div></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 1.75rem; height: 4rem; padding-inline: 1.5rem; background: color-mix(in oklab, #0b0b0c 80%, transparent); border-bottom: 1px solid color-mix(in oklab, #c9a24b 15%, transparent); } .ds-nav > a { position: relative; padding-block: 0.5rem; font-size: 0.875rem; color: color-mix(in oklab, #ede8dc 80%, transparent); text-decoration: none; transition: color 200ms; } .ds-nav > a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 2px; height: 1px; background: #c9a24b; transform: scaleX(0); transform-origin: left; transition: transform 300ms cubic-bezier(0.16,1,0.3,1); } .ds-nav > a:hover { color: #ede8dc; } .ds-nav > a:hover::after { transform: scaleX(1); } .ds-nav > a:focus-visible { outline: 2px solid #c9a24b; outline-offset: 3px; } .ds-lang { display: flex; margin-inline-start: auto; border: 1px solid color-mix(in oklab, #c9a24b 30%, transparent); } .ds-lang button { min-height: 2.25rem; min-width: 2.75rem; padding-inline: 0.625rem; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.08em; background: transparent; border: 0; color: color-mix(in oklab, #ede8dc 70%, transparent); cursor: pointer; transition: color 200ms; } .ds-lang button[aria-pressed=true] { background: #c9a24b; color: #0b0b0c; } .ds-lang button:hover { color: #ede8dc; } .ds-lang button[aria-pressed=true]:hover { color: #0b0b0c; }"
+    },
+    {
+      "name": "ZAG Line",
+      "kind": "custom",
+      "refersTo": "zig-connector",
+      "description": "The one governing diagonal between catalog rows: 1px gold/70 stroke with 7px gold diamond nodes at each end; mirrored in RTL.",
+      "html": "<div class=\"ds-zig\"><svg viewBox=\"0 0 100 100\" preserveAspectRatio=\"none\"><line x1=\"100\" y1=\"0\" x2=\"0\" y2=\"100\" stroke=\"currentColor\" stroke-width=\"1\" vector-effect=\"non-scaling-stroke\"/></svg><span class=\"ds-node ds-node-a\"></span><span class=\"ds-node ds-node-b\"></span></div>",
+      "css": ".ds-zig { position: relative; width: 16rem; height: 7rem; color: color-mix(in oklab, #c9a24b 70%, transparent); } .ds-zig svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; } .ds-node { position: absolute; width: 7px; height: 7px; background: #c9a24b; transform: rotate(45deg); } .ds-node-a { top: -3.5px; right: -3.5px; } .ds-node-b { bottom: -3.5px; left: -3.5px; }"
+    },
+    {
+      "name": "SOLD Stamp",
+      "kind": "custom",
+      "refersTo": "sold-stamp",
+      "description": "Dealer's rubber stamp on sold plates: gold tracked caps inside an inset double rule, rotated -6deg (+6deg in RTL).",
+      "html": "<span class=\"ds-stamp\">Sold</span>",
+      "css": ".ds-stamp { display: inline-block; transform: rotate(-6deg); padding: 0.375rem 0.75rem; background: color-mix(in oklab, #0b0b0c 75%, transparent); font-family: Unbounded, sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #c9a24b; box-shadow: inset 0 0 0 1.5px #c9a24b, inset 0 0 0 3.5px color-mix(in oklab, #0b0b0c 75%, transparent), inset 0 0 0 4.5px #c9a24b; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Showroom Placard",
+    "overview": "The site is a dealer's showroom floor after dark. Every category, sold unit and branch stands on an ink panel. Each panel has a 1px gold hairline, registration marks at its corners and a column of ruled fields, like the spec card clipped to a vehicle on the floor. The placard is honest about what it does not know. A field with no confirmed data shows a dashed blank marked \"to confirm\". The system never fills it with an invented number.\n\nThe system is dark only (`color-scheme: dark`, theme color ink). It uses one metal accent and one warm paper-white for text, and nothing else. Hierarchy comes from scale contrast: wide, tightly tracked Unbounded titles sit against tiny tracked field labels. Weight and color do little of that work. The page is quiet between placards. Generous section spacing and single hairline rules divide space, not boxes or fills. One diagonal gold line zig-zags down the catalog and ties the placards into a running Z, the brand's own letter.\n\nArabic is a first-class reading, not a translation layer. It is set in Cairo throughout, mirrored with logical properties, and never letterspaced or uppercased.",
+    "keyCharacteristics": [
+      "Dark only: ink stand, bone text, gold rules. No light theme.",
+      "Square corners everywhere (0 radius), including buttons.",
+      "Placard material: 1px gold hairline, registration corners, dotted leaders, dashed pending fields.",
+      "Every media slot has a finished, labelled placeholder. Media fades in only once it has loaded.",
+      "Scroll-driven reveals that are progressive, CSS-only and fully disabled under reduced motion.",
+      "Built for RTL from the start: logical insets, mirrored diagonals and arrows, and bidi-isolated Latin identifiers."
+    ],
+    "rules": [
+      { "name": "The One Metal Rule", "body": "Gold is the only color with chroma. Any new state or emphasis is gold at some alpha, or bone. Nothing else is introduced.", "section": "colors" },
+      { "name": "The Hairline Alpha Rule", "body": "Structural gold appears as a 1px line at graded alpha: 10% for inner list dividers, 15% for section borders, 20–35% for rules and strips, 55–70% for chips, buttons and slot corners, and 100% only for corners, nodes and fills.", "section": "colors" },
+      { "name": "The Arabic Plain Rule", "body": "Arabic never gets letterspacing or `text-transform`. Every tracked or uppercase Latin style carries an Arabic override (`ar:tracking-normal`, or `letter-spacing: 0; text-transform: none` under `:lang(ar)`), and Arabic small text is sized up (0.6875rem → 0.8125rem, 0.8125rem → 0.9375rem).", "section": "typography" },
+      { "name": "The Arabic Weight Bump Rule", "body": "Cairo display runs one or two steps heavier than the Latin equivalent (`ar:font-bold` on titles, `ar:font-extrabold` on the hero line), with taller leading (1.3–1.5).", "section": "typography" },
+      { "name": "The Scale-Not-Weight Rule", "body": "Hierarchy comes from the size gap between display titles and 11px field labels. Weights stay in the 400–600 band for Latin.", "section": "typography" },
+      { "name": "The No-Drop-Shadow Rule", "body": "Separation is a hairline or a tonal step, never an outer shadow. The only box-shadow in the build is the SOLD stamp's inset double rule, which draws a stamp border. It does not create elevation.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do put every product, sale and location on a placard: ink-2, a 1px gold/24 hairline and registration corners.",
+      "Do show unknown data as a dashed pending field labelled \"to confirm\", in muted.",
+      "Do give every image and video slot a finished SlotPlaceholder, and fade the media in only after it has loaded.",
+      "Do keep all corners square (0px).",
+      "Do set Arabic in Cairo, one weight step heavier on display text, with no letterspacing and no uppercase.",
+      "Do use logical properties for all placement. Mirror only diagonals, arrows, gradients, rule origins and rotations.",
+      "Do isolate Latin identifiers inside Arabic text with `<bdi>` or U+2068/U+2069, and mark Latin brand names with `lang=\"en\"`.",
+      "Do keep lot codes as Latin two-digit numbers (`01`) in both languages. They are identifiers, like plate numbers.",
+      "Do gate every scroll or decorative animation behind `@supports` and `prefers-reduced-motion: no-preference`."
+    ],
+    "donts": [
+      "Don't show prices or invent specs, model names or counts. Leave the field pending instead.",
+      "Don't add a light theme or a second accent hue.",
+      "Don't add rounded corners, drop shadows or glossy gradient cards with \"Explore\" buttons.",
+      "Don't letterspace or uppercase Arabic.",
+      "Don't let a broken image or empty video box render. The placeholder is the fallback.",
+      "Don't autoplay reel videos. They play only on hover or focus, and the hero video never loads under reduced motion."
+    ]
+  }
+}

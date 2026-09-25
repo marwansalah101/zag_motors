@@ -1,0 +1,426 @@
+@import "tailwindcss";
+
+/* Arabic-only overrides: `ar:tracking-normal`, `ar:leading-[1.4]`, … */
+@custom-variant ar (&:lang(ar));
+
+@theme {
+  --color-ink: #0b0b0c;
+  --color-ink-2: #121213;
+  --color-ink-3: #1a191b;
+  --color-gold: #c9a24b;
+  --color-gold-deep: #a6843a;
+  --color-bone: #ede8dc;
+  --color-muted: #8a8577;
+
+  --font-display: var(--font-unbounded), var(--font-cairo), ui-sans-serif, sans-serif;
+  --font-sans: var(--font-archivo), var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
+  --font-latin-display: var(--font-unbounded), ui-sans-serif, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Arabic reads in Cairo throughout; Latin brand names opt back in with lang="en". */
+:root:lang(ar) {
+  --font-display: var(--font-cairo), ui-sans-serif, sans-serif;
+  --font-sans: var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--color-ink);
+    color-scheme: dark;
+    scrollbar-color: color-mix(in oklab, var(--color-gold) 40%, var(--color-ink)) var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    /*
+     * `document.scrollingElement` is <html>, not <body>: relying on body's
+     * overflow-x to *propagate* up to the viewport is a legacy algorithm
+     * that predates the `clip` keyword, and isn't honored consistently for
+     * it. Setting it here, on the actual scrolling box, doesn't depend on
+     * that propagation at all.
+     */
+    overflow-x: clip;
+    overscroll-behavior-x: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    caret-color: var(--color-gold);
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  :root:lang(ar) body {
+    line-height: 1.75;
+  }
+
+  /* Returning Arabic readers: hold the first paint until the copy swaps in. */
+  html.i18n-pending body {
+    visibility: hidden;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    text-underline-offset: 0.3em;
+    text-decoration-thickness: 1px;
+  }
+}
+
+/* ---------- Placard material ---------- */
+
+@layer components {
+  /* A showroom placard: ink panel, gold hairline, registration corners. */
+  .placard {
+    position: relative;
+    background: var(--color-ink-2);
+    border: 1px solid color-mix(in oklab, var(--color-gold) 24%, transparent);
+  }
+
+  .placard::before,
+  .reg-corners::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    --c: var(--reg-color, var(--color-gold));
+    --l: var(--reg-size, 14px);
+    background:
+      linear-gradient(var(--c), var(--c)) top left / var(--l) 1px,
+      linear-gradient(var(--c), var(--c)) top left / 1px var(--l),
+      linear-gradient(var(--c), var(--c)) top right / var(--l) 1px,
+      linear-gradient(var(--c), var(--c)) top right / 1px var(--l),
+      linear-gradient(var(--c), var(--c)) bottom left / var(--l) 1px,
+      linear-gradient(var(--c), var(--c)) bottom left / 1px var(--l),
+      linear-gradient(var(--c), var(--c)) bottom right / var(--l) 1px,
+      linear-gradient(var(--c), var(--c)) bottom right / 1px var(--l);
+    background-repeat: no-repeat;
+  }
+
+  /* Empty media slot: dark gradient with a fine gold hatch. */
+  .slot-surface {
+    background-color: var(--color-ink-2);
+    background-image:
+      repeating-linear-gradient(
+        135deg,
+        color-mix(in oklab, var(--color-gold) 7%, transparent) 0 1px,
+        transparent 1px 13px
+      ),
+      radial-gradient(120% 90% at 85% 10%, #1f1c16 0%, transparent 60%),
+      linear-gradient(160deg, #19171300 0%, #0c0c0d 100%);
+  }
+
+  /* Placard field: label, dotted leader, value (dl > div > dt + dd). */
+  .field-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .field-row > dt {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: baseline;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .field-row > dt::after {
+    content: "";
+    flex: 1 1 1.25rem;
+    min-width: 1.25rem;
+    border-bottom: 1px dotted color-mix(in oklab, var(--color-muted) 55%, transparent);
+    transform: translateY(-0.25em);
+  }
+
+  .field-row > dd {
+    flex: 0 1 auto;
+    text-align: end;
+  }
+
+  /* Narrow phones: keep the label and a stub of leader whole; the value wraps instead. */
+  @media (width < 40rem) {
+    .field-row > dt {
+      min-width: auto;
+    }
+  }
+
+  /* An unfilled field on the placard: visibly blank, never fiction. */
+  .pending-field {
+    border: 1px dashed color-mix(in oklab, var(--color-muted) 70%, transparent);
+    color: var(--color-muted);
+  }
+
+  /* Field label: small tracked caps in Latin, plain in Arabic. */
+  .field-label {
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  :lang(ar) .field-label {
+    font-size: 0.8125rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* Buttons: square-cornered, hairline or solid gold. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    min-height: 3rem;
+    padding-inline: 1.375rem;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition:
+      background-color 220ms var(--ease-out-quart),
+      color 220ms var(--ease-out-quart),
+      border-color 220ms var(--ease-out-quart),
+      transform 120ms var(--ease-out-quart);
+  }
+
+  :lang(ar) .btn {
+    font-size: 0.9375rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn-solid {
+    background: var(--color-gold);
+    color: var(--color-ink);
+    border: 1px solid var(--color-gold);
+  }
+
+  .btn-solid:hover {
+    background: var(--color-bone);
+    border-color: var(--color-bone);
+  }
+
+  .btn-line {
+    border: 1px solid color-mix(in oklab, var(--color-gold) 70%, transparent);
+    color: var(--color-bone);
+    background: color-mix(in oklab, var(--color-ink) 55%, transparent);
+  }
+
+  .btn-line:hover {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  .flip-rtl:dir(rtl) {
+    transform: scaleX(-1);
+  }
+}
+
+/* Paper-fine grain over the whole stand; fixed so it never repaints on scroll. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Four identical runs keep the rail filled on wide screens. One run is the
+   loop distance; hover changes the plate, never the rail's speed. */
+.brand-carousel {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* iOS 15 and older have no `overflow: clip`. Without this the marquee track
+   widens the whole page and phones scroll sideways across it. */
+@supports not (overflow: clip) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .brand-carousel {
+    overflow: hidden;
+  }
+}
+
+.brand-carousel-track {
+  display: flex;
+  width: max-content;
+  animation: brand-drift 40s linear infinite;
+  will-change: transform;
+}
+
+:root:lang(ar) .brand-carousel-track {
+  animation-direction: reverse;
+}
+
+@keyframes brand-drift {
+  to {
+    transform: translate3d(-25%, 0, 0);
+  }
+}
+
+.brand-slide .brand-plate,
+.brand-slide .brand-logo-content,
+.brand-slide .field-label {
+  transition: border-color 350ms ease, background-color 350ms ease,
+    box-shadow 350ms ease, color 350ms ease, transform 350ms var(--ease-out-quart),
+    filter 350ms ease;
+}
+
+@media (hover: hover) {
+  .brand-slide:hover .brand-plate {
+    border-color: var(--color-gold);
+    background-color: var(--color-ink-3);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-gold) 60%, transparent),
+      0 0 26px color-mix(in srgb, var(--color-gold) 38%, transparent),
+      0 0 60px color-mix(in srgb, var(--color-gold) 18%, transparent);
+    transform: translateY(-3px);
+  }
+
+  .brand-slide:hover .brand-logo-content {
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--color-gold) 60%, transparent));
+    transform: scale(1.07);
+  }
+
+  .brand-slide:hover .field-label {
+    color: var(--color-gold);
+  }
+}
+
+/* ---------- Sold gallery: isolate the plate under the pointer ---------- */
+
+.sold-plate {
+  transition: opacity 300ms var(--ease-out-quart);
+}
+
+@media (hover: hover) {
+  .sold-grid:has(.sold-plate:hover) .sold-plate:not(:hover) {
+    opacity: 0.4;
+  }
+}
+
+/* ---------- Scroll-driven motion (progressive; content is visible without it) ---------- */
+
+@keyframes rule-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes field-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes zig-draw {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* `scale` (not transform) so it composes with the node's rotate-45. */
+@keyframes node-in {
+  from {
+    opacity: 0;
+    scale: 0.2;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .draw-rule {
+      transform-origin: left center;
+      animation: rule-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 30%;
+    }
+
+    .draw-rule:dir(rtl) {
+      transform-origin: right center;
+    }
+
+    .field-in {
+      animation: field-in linear both;
+      animation-timeline: view();
+      animation-range: entry calc(4% + var(--i, 0) * 3%) cover calc(20% + var(--i, 0) * 3%);
+    }
+
+    .zig-line {
+      animation: zig-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 30% cover 55%;
+    }
+
+    .zig-node {
+      animation: node-in linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 40%;
+    }
+
+    .zig-node-end {
+      animation-range: cover 45% cover 60%;
+    }
+  }
+}
